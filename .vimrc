@@ -1,5 +1,6 @@
 syntax on
 
+set statusline="%f%m%r%h%w [%Y] [0x%02.2B]%< %F%=%4v,%4l %3p%% of %L"
 set modifiable
 set wildmenu
 set wildmode=list:longest,full
@@ -44,7 +45,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'psf/black', { 'branch': 'stable' }
+Plug 'vim-scripts/ZoomWin'
+" Plug 'psf/black', { 'branch': 'stable' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tweekmonster/gofmt.vim'
 Plug 'tpope/vim-fugitive'
@@ -56,7 +58,11 @@ Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
 call plug#end()
 
-autocmd BufWritePre *.py execute ':Black'
+let g:ctrlp_max_files=0
+let g:netrw_banner = 'qf'
+let g:coc_disable_startup_warning = 1
+
+" autocmd BufWritePre *.py execute ':Black'
 
 let g:gruvbox_contrast_dark = 'hard'
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -96,7 +102,8 @@ let g:vrfr_rg = 'true'
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
-nnoremap <leader>, :a<Del>
+nnoremap <leader>c :cd %:h<CR>
+nnoremap <leader>d :bd<CR>
 nnoremap <leader>r :e ~/.vimrc<CR>
 nnoremap <leader>s :sblast<CR>
 nnoremap <leader>q :q<CR>
@@ -113,9 +120,11 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+nnoremap <leader>R :vert res 30<CR>
+nnoremap <leader>P :vert res 100<CR>
 nnoremap <Leader>ps :Rg<SPACE>
-nnoremap <C-p> :GFiles<CR>
-nnoremap <Leader>pf :Files<CR>
+" set runtimepath^=~/.vim/bundle/ctrlp.vim
+nnoremap <C-p> :Files<CR>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
@@ -142,7 +151,6 @@ inoremap <silent><expr> <TAB>
             \ coc#refresh()
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
 
 " GoTo code navigation.
@@ -174,4 +182,5 @@ augroup highlight_yank
 augroup END
 
 autocmd BufWritePre * :call TrimWhitespace()
+
 
